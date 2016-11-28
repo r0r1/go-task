@@ -34,7 +34,7 @@ func StoreTask(t *Task) (id int64, err error) {
 
     id, err = o.Insert(t)
     if err != nil {
-        return 0, errors.New("Failed insert data")
+        return 0, err
     }
 
     return id, nil
