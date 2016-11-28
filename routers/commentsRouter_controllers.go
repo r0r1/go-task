@@ -83,4 +83,32 @@ func init() {
 			AllowHTTPMethods: []string{"post"},
 			Params: nil})
 
+	beego.GlobalControllerRouter["go-task/controllers:UserController"] = append(beego.GlobalControllerRouter["go-task/controllers:UserController"],
+		beego.ControllerComments{
+			Method: "GetOne",
+			Router: `/:id`,
+			AllowHTTPMethods: []string{"get"},
+			Params: nil})
+
+	beego.GlobalControllerRouter["go-task/controllers:UserController"] = append(beego.GlobalControllerRouter["go-task/controllers:UserController"],
+		beego.ControllerComments{
+			Method: "GetAll",
+			Router: `/`,
+			AllowHTTPMethods: []string{"get"},
+			Params: nil})
+
+	beego.GlobalControllerRouter["go-task/controllers:UserController"] = append(beego.GlobalControllerRouter["go-task/controllers:UserController"],
+		beego.ControllerComments{
+			Method: "Put",
+			Router: `/:id`,
+			AllowHTTPMethods: []string{"put"},
+			Params: nil})
+
+	beego.GlobalControllerRouter["go-task/controllers:UserController"] = append(beego.GlobalControllerRouter["go-task/controllers:UserController"],
+		beego.ControllerComments{
+			Method: "Delete",
+			Router: `/:id`,
+			AllowHTTPMethods: []string{"delete"},
+			Params: nil})
+
 }
