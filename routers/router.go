@@ -8,21 +8,26 @@
 package routers
 
 import (
-	"go-task/go-task/controllers"
+	"go-task/controllers"
 
 	"github.com/astaxie/beego"
 )
 
 func init() {
 	ns := beego.NewNamespace("/v1",
-		beego.NSNamespace("/object",
-			beego.NSInclude(
-				&controllers.ObjectController{},
-			),
-		),
-		beego.NSNamespace("/user",
+		beego.NSNamespace("/users",
 			beego.NSInclude(
 				&controllers.UserController{},
+			),
+		),
+		beego.NSNamespace("/status",
+			beego.NSInclude(
+				&controllers.TaskStatusController{},
+			),
+		),
+		beego.NSNamespace("/tasks",
+			beego.NSInclude(
+				&controllers.TaskController{},
 			),
 		),
 	)
