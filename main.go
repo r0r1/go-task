@@ -1,15 +1,48 @@
 package main
 
 import (
-	_ "go-task/go-task/routers"
+    "fmt"
+    _ "go-task/routers"
+    "time"
 
-	"github.com/astaxie/beego"
+    "github.com/astaxie/beego"
+    "github.com/astaxie/beego/orm"
+    _ "github.com/go-sql-driver/mysql"
 )
 
+func init() {
+    orm.RegisterDriver("mysql", orm.DRMySQL)
+
+    dbUser := beego.AppConfig.String("db_user")
+    dbPassword := beego.AppConfig.String("db_password")
+    dbName := beego.AppConfig.String("db_name")
+    dsn := dbUser + ":" + dbPassword + "@/" + dbName + "?charset=utf8"
+
+    orm.RegisterDataBase("default", "mysql", dsn)
+    orm.DefaultTimeLoc = time.UTC
+}
+
 func main() {
-	if beego.BConfig.RunMode == "dev" {
-		beego.BConfig.WebConfig.DirectoryIndex = true
-		beego.BConfig.WebConfig.StaticDir["/swagger"] = "swagger"
-	}
-	beego.Run()
+    if beego.BConfig.RunMode == "dev" {
+        beego.BConfig.WebConfig.DirectoryIndex = true
+        beego.BConfig.WebConfig.StaticDir["/swagger"] = "swagger"
+    }
+
+    // Database alias.
+    name := "default"
+
+    // Drop table and re-create.
+    force := true
+
+    // Print log.
+    verbose := true
+
+    // Error.
+    err := orm.RunSyncdb(name, force, verbose)
+    if err != nil {
+        fmt.Println(err)
+    }
+
+    beego.Run()
+    orm.RunCommand()
 }
