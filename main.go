@@ -7,8 +7,9 @@ import (
 
     "github.com/astaxie/beego"
     "github.com/astaxie/beego/orm"
-    _ "github.com/go-sql-driver/mysql"
     "github.com/astaxie/beego/plugins/cors"
+    _ "github.com/go-sql-driver/mysql"
+    "go-task/models"
 )
 
 func init() {
@@ -29,29 +30,44 @@ func main() {
         beego.BConfig.WebConfig.StaticDir["/swagger"] = "swagger"
     }
 
+    // Handle CORS
+    beego.InsertFilter("*", beego.BeforeRouter, cors.Allow(&cors.Options{
+        AllowOrigins:     []string{"*"},
+        AllowMethods:     []string{"POST", "PUT", "PATCH", "DELETE"},
+        AllowHeaders:     []string{"Origin", "Content-Type"},
+        ExposeHeaders:    []string{"Content-Length"},
+        AllowCredentials: true,
+    }))
+
     // Database alias.
     name := "default"
-
     // Drop table and re-create.
     force := true
-
     // Print log.
     verbose := true
-
     // Error.
     err := orm.RunSyncdb(name, force, verbose)
     if err != nil {
         fmt.Println(err)
     }
 
-    // Handle CORS
-    beego.InsertFilter("*", beego.BeforeRouter,cors.Allow(&cors.Options{
-        AllowOrigins: []string{"*"},
-        AllowMethods: []string{"GET", "POST", "PUT", "PATCH"},
-        AllowHeaders: []string{"Origin"},
-        ExposeHeaders: []string{"Content-Length"},
-        AllowCredentials: true,
-    }))
+    // Create Status Default
+    o := orm.NewOrm()
+    statusPending := new(models.TaskStatus)
+    statusPending.Name = "Pending"
+    statusPending.Label = "label label-info"
+
+    statusDone := new(models.TaskStatus)
+    statusDone.Name = "Done"
+    statusDone.Label = "label label-success"
+
+    statusProgress := new(models.TaskStatus)
+    statusProgress.Name = "Progress"
+    statusProgress.Label = "label label-warning"
+
+    o.Insert(statusPending)
+    o.Insert(statusDone)
+    o.Insert(statusProgress)
 
     beego.Run()
     orm.RunCommand()

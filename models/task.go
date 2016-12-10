@@ -12,13 +12,13 @@ import (
 
 type Task struct {
     Id          int
-    Name        string      `valid:"Required"`
-    Description string      `orm:"null;type(text)"`
-    Parent      *Task       `orm:"rel(fk)"`
-    Priority    int         `orm:"default(0)" valid:"Min:1;Max:5"`
-    Status      *TaskStatus `orm:"rel(one)"`
-    Created     time.Time   `orm:"auto_now_add;type(datetime)"`
-    Updated     time.Time   `orm:"auto_now;type(datetime)"`
+    Name        string    `valid:"Required"`
+    Description string    `orm:"null;type(text)"`
+    Parent      *Task     `orm:"rel(fk)"`
+    Priority    int       `orm:"default(0)" valid:"Min:1;Max:5"`
+    Status      int       `orm:"null"`
+    Created     time.Time `orm:"auto_now_add;type(datetime)"`
+    Updated     time.Time `orm:"auto_now;type(datetime)"`
 }
 
 func (t *Task) TableName() string {
