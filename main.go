@@ -8,6 +8,7 @@ import (
     "github.com/astaxie/beego"
     "github.com/astaxie/beego/orm"
     _ "github.com/go-sql-driver/mysql"
+    "github.com/astaxie/beego/plugins/cors"
 )
 
 func init() {
@@ -42,6 +43,15 @@ func main() {
     if err != nil {
         fmt.Println(err)
     }
+
+    // Handle CORS
+    beego.InsertFilter("*", beego.BeforeRouter,cors.Allow(&cors.Options{
+        AllowOrigins: []string{"*"},
+        AllowMethods: []string{"GET", "POST", "PUT", "PATCH"},
+        AllowHeaders: []string{"Origin"},
+        ExposeHeaders: []string{"Content-Length"},
+        AllowCredentials: true,
+    }))
 
     beego.Run()
     orm.RunCommand()
