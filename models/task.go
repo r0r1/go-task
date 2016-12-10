@@ -13,7 +13,7 @@ import (
 type Task struct {
     Id          int
     Name        string      `valid:"Required"`
-    Description string      `orm:"null;type(text)" valid:"Required"`
+    Description string      `orm:"null;type(text)"`
     Parent      *Task       `orm:"rel(fk)"`
     Priority    int         `orm:"default(0)" valid:"Min:1;Max:5"`
     Status      *TaskStatus `orm:"rel(one)"`

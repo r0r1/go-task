@@ -10,7 +10,6 @@ type TaskStatus struct {
     Id    int
     Name  string `valid:"Required"`
     Label string `orm:"null"`
-    Task  *Task  `orm:"reverse(one)"`
 }
 
 func (t *TaskStatus) TableName() string {
