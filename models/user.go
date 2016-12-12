@@ -19,6 +19,7 @@ type User struct {
 	Password string    `valid:"Required"`
 	Contact  string    `orm:"null"`
 	Address  string    `orm:"null;type(text)"`
+	Task 	[]*Task    `orm:"reverse(many)"`
 	Created  time.Time `orm:"auto_now_add;type(datetime)"`
 }
 

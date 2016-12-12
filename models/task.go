@@ -12,13 +12,14 @@ import (
 
 type Task struct {
     Id          int
-    Name        string    `valid:"Required"`
-    Description string    `orm:"null;type(text)"`
-    Parent      *Task     `orm:"rel(fk)"`
-    Priority    int       `orm:"default(0)" valid:"Min:1;Max:5"`
-    Status      int       `orm:"null"`
-    Created     time.Time `orm:"auto_now_add;type(datetime)"`
-    Updated     time.Time `orm:"auto_now;type(datetime)"`
+    Name        string          `valid:"Required"`
+    User        *User           `orm:"rel(fk)"`
+    Description string          `orm:"null;type(text)"`
+    Parent      *Task           `orm:"null;rel(one)" valid:"Required"`
+    Priority    int             `orm:"default(0)" valid:"Min:1;Max:5"`
+    Status      *TaskStatus   `orm:"rel(fk)"`
+    Created     time.Time       `orm:"auto_now_add;type(datetime)"`
+    Updated     time.Time       `orm:"auto_now;type(datetime)"`
 }
 
 func (t *Task) TableName() string {
@@ -56,7 +57,8 @@ func ShowTask(id int) (v *Task, err error) {
 func GetAllTask(query map[string]string, fields []string, sortby []string, order []string,
     offset int64, limit int64) (ml []interface{}, err error) {
     o := orm.NewOrm()
-    qs := o.QueryTable(new(Task))
+    qs := o.QueryTable(new(Task)).RelatedSel("status").RelatedSel("user")
+
     // query k=v
     for k, v := range query {
         // rewrite dot-notation to Task__Attribute
