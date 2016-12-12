@@ -52,7 +52,16 @@ func main() {
     }
 
     // Create Status Default
+    seedData()
+
+    beego.Run()
+    orm.RunCommand()
+}
+
+func seedData() {
     o := orm.NewOrm()
+    o.Using("default") 
+
     statusPending := new(models.TaskStatus)
     statusPending.Name = "Pending"
     statusPending.Label = "label label-info"
@@ -65,10 +74,31 @@ func main() {
     statusProgress.Name = "Progress"
     statusProgress.Label = "label label-warning"
 
+    user1 := new(models.User)
+    user1.Name = "User A"
+    user1.Email = "user@sample.net"
+    user1.Username = "user-a"
+    user1.Password = "foobarbaz"
+
+    task := new(models.Task);
+    task.Name = "Taks 1"
+    task.User = user1
+    task.Status = statusDone
+    task.Priority = 3
+    task.Description = "Lorem Ipsum....."
+
+    taskChild := new(models.Task);
+    taskChild.Name = "Taks Child 1"
+    taskChild.Parent = task
+    taskChild.User = user1
+    taskChild.Status = statusPending
+    taskChild.Priority = 4
+    taskChild.Description = "Lorem Ipsum....."
+
     o.Insert(statusPending)
     o.Insert(statusDone)
     o.Insert(statusProgress)
-
-    beego.Run()
-    orm.RunCommand()
+    o.Insert(user1)
+    o.Insert(task)
+    o.Insert(taskChild)
 }
