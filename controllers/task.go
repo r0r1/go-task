@@ -46,7 +46,7 @@ func (this *TaskController) Post() {
         this.ServeJSON()
         return
     }
-
+    beego.Info(&v)
     id, err := models.StoreTask(&v)
     if err == nil {
         this.Data["json"] = map[string]int64{"id": id}
