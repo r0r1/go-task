@@ -3,25 +3,25 @@ package main
 import (
     "fmt"
     _ "go-task/routers"
-    "time"
 
     "github.com/astaxie/beego"
-    "github.com/astaxie/beego/orm"
     "github.com/astaxie/beego/plugins/cors"
-    _ "github.com/go-sql-driver/mysql"
+    "github.com/jinzhu/gorm"
+    _ "github.com/jinzhu/gorm/dialects/mysql"
     "go-task/models"
 )
 
 func init() {
-    orm.RegisterDriver("mysql", orm.DRMySQL)
-
     dbUser := beego.AppConfig.String("db_user")
     dbPassword := beego.AppConfig.String("db_password")
     dbName := beego.AppConfig.String("db_name")
     dsn := dbUser + ":" + dbPassword + "@/" + dbName + "?charset=utf8"
 
-    orm.RegisterDataBase("default", "mysql", dsn)
-    orm.DefaultTimeLoc = time.UTC
+    db, err := gorm.Open("mysql", dsn)
+
+    if err != nil {
+        fmt.Println("error connect")
+    }
 }
 
 func main() {
@@ -39,66 +39,51 @@ func main() {
         AllowCredentials: true,
     }))
 
-    // Database alias.
-    name := "default"
-    // Drop table and re-create.
-    force := true
-    // Print log.
-    verbose := true
-    // Error.
-    err := orm.RunSyncdb(name, force, verbose)
-    if err != nil {
-        fmt.Println(err)
-    }
+    db.AutoMigrate(&models.User{}, &models.Task{}, &models.Status{})
 
     // Create Status Default
     seedData()
 
     beego.Run()
-    orm.RunCommand()
 }
 
 func seedData() {
-    o := orm.NewOrm()
-    o.Using("default") 
-
-    statusPending := new(models.TaskStatus)
+    statusPending := &models.Status{}
     statusPending.Name = "Pending"
     statusPending.Label = "label label-info"
+    db.Create(statusPending)
 
-    statusDone := new(models.TaskStatus)
+    statusDone := models.Status
     statusDone.Name = "Done"
     statusDone.Label = "label label-success"
+    db.Create(&statusDone)
 
-    statusProgress := new(models.TaskStatus)
+    statusProgress := models.Status
     statusProgress.Name = "Progress"
     statusProgress.Label = "label label-warning"
+    db.Create(&statusProgress)
 
-    user1 := new(models.User)
-    user1.Name = "User A"
-    user1.Email = "user@sample.net"
-    user1.Username = "user-a"
-    user1.Password = "foobarbaz"
+    user := models.User
+    user.Name = "John Doe"
+    user.Email = "john@doe.com"
+    user.Username = "john-doe"
+    user.Password = "foobarbaz"
+    db.Create(&user)
 
-    task := new(models.Task);
+    task := models.Task
     task.Name = "Taks 1"
     task.User = user1
     task.Status = statusDone
     task.Priority = 3
     task.Description = "Lorem Ipsum....."
+    db.Create(&task)
 
-    taskChild := new(models.Task);
+    taskChild := models.Task
     taskChild.Name = "Taks Child 1"
     taskChild.Parent = task
-    taskChild.User = user1
+    taskChild.User = user
     taskChild.Status = statusPending
     taskChild.Priority = 4
     taskChild.Description = "Lorem Ipsum....."
-
-    o.Insert(statusPending)
-    o.Insert(statusDone)
-    o.Insert(statusProgress)
-    o.Insert(user1)
-    o.Insert(task)
-    o.Insert(taskChild)
+    db.Create(&taskChild)
 }
