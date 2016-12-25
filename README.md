@@ -36,16 +36,18 @@ Register User
 *Response* :
 
         {
-            "ID": 10,
-            "CreatedAt": "2016-12-25T23:11:21.872065994+07:00",
-            "UpdatedAt": "2016-12-25T23:11:21.872065994+07:00",
-            "DeletedAt": null,
-            "name": "John Doe",
-            "email": "john@doe.com",
-            "password": "$2a$10$EJAR0Ppbe2OkzMDskarAYOhYKcCSpPecA9LX/0WWm/a.HBSY.UZdW",
-            "contact": "",
-            "address": "",
-            "Task": null
+            {
+              "ID": 10,
+              "CreatedAt": "2016-12-25T23:11:21.872065994+07:00",
+              "UpdatedAt": "2016-12-25T23:11:21.872065994+07:00",
+              "DeletedAt": null,
+              "name": "John Doe",
+              "email": "john@doe.com",
+              "password": "$2a$10$EJAR0Ppbe2OkzMDskarAYOhYKcCSpPecA9LX/0WWm/a.HBSY.UZdW",
+              "contact": "",
+              "address": "",
+              "Task": null
+            }
         }
 
 ### POST /login
@@ -53,15 +55,19 @@ Register User
 *Request* :
 
         {
-            "username": "john@doe.com",
-            "password": "foobarbaz",
+            {
+                "username": "john@doe.com",
+                "password": "foobarbaz",
+            }
         }
 
 *Response* :
 
         {
-            "expire": "2016-12-26T00:12:19+07:00",
-            "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE0ODI2ODU5MzksImlkIjoicm9yaS5rdXJuaWFkaUB5YWhvby5jb20iLCJvcmlnX2lhdCI6MTQ4MjY4MjMzOX0.OzRTRuCh9BnNmEJEEqjwGzJiQQaUafl7lx0swPvZ0rE"
+            {
+                "expire": "2016-12-26T00:12:19+07:00",
+                "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE0ODI2ODU5MzksImlkIjoicm9yaS5rdXJuaWFkaUB5YWhvby5jb20iLCJvcmlnX2lhdCI6MTQ4MjY4MjMzOX0.OzRTRuCh9BnNmEJEEqjwGzJiQQaUafl7lx0swPvZ0rE"
+            }
         }
 
 ## List all the tasks
