@@ -1,8 +1,9 @@
 package resources
 
 import (
-	"go-task/models"
 	"time"
+
+	"github.com/rorikurniadi/go-task/models"
 
 	jwt "gopkg.in/appleboy/gin-jwt.v2"
 

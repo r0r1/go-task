@@ -1,9 +1,10 @@
 package resources
 
 import (
-	"go-task/models"
 	"log"
 	"strconv"
+
+	"github.com/rorikurniadi/go-task/models"
 
 	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/gorm"

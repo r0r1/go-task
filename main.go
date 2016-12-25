@@ -1,8 +1,8 @@
 package main
 
 import (
-	"go-task/models"
-	"go-task/resources"
+	"github.com/rorikurniadi/go-task/models"
+	"github.com/rorikurniadi/go-task/resources"
 
 	"github.com/gin-gonic/gin"
 )
