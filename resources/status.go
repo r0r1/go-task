@@ -2,68 +2,64 @@ package resources
 
 import (
 	"go-task/models"
-	"go-task/services/domain"
+	"log"
+	"strconv"
 
+	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/gorm"
-	"github.com/kataras/iris"
 )
 
-// Status API
-type StatusAPI struct {
-	ctx *iris.Context
-	db  *gorm.DB
+// NewUserStorage initializes the storage
+func NewStatusStorage(db *gorm.DB) *StatusResource {
+	return &StatusResource{db}
 }
 
-// Status Storage
-type StatusStorage struct {
+// Status API
+type StatusResource struct {
 	db *gorm.DB
 }
 
-// GET /statuses
-func (s StatusAPI) Get() {
+func (sr *StatusResource) Get(c *gin.Context) {
 	var statuses []models.Status
-	s.db.Order("id").Find(&statuses)
-	return statuses
-	// statuses := db.Find(&Status{})
-	// c.JSON(iris.StatusOK, statuses)
+
+	sr.db.Order("created_at desc").Find(&statuses)
+
+	c.JSON(200, statuses)
 }
 
-// GET /:param1 which its value passed to the id argument
-func (s StatusAPI) GetBy(id string) { // id equals to u.Param("param1")
-	s.Write("Get from /users/%s", id)
-	// u.JSON(iris.StatusOK, myDb.GetUserById(id))
-}
-
-// PUT /statuses
-func (s StatusAPI) Put() {
-	name := s.FormValue("name")
-	// myDb.InsertUser(...)
-	println(string(name))
-	println("Put from /users")
-}
-
-// POST /statuses/:param1
-func (s StatusAPI) PostBy(id string) {
-
-	name := s.PostValue("name") // you can still use the whole Context's features!
-	// myDb.UpdateUser(...)
-
-	statusCustom := models.Status{
-		Name:  "Custom",
-		Label: "label label-custom",
+func (sr *StatusResource) Show(c *gin.Context) {
+	id, err := sr.getId(c)
+	if err != nil {
+		c.JSON(400, gin.H{"error": "problem decoding id sent"})
+		return
 	}
 
-	id := *domain.StatusStorage.Insert(statusCustom)
+	var status models.Status
 
-	s.JSON(iris.StatusOK, iris.Map{"message": "add status successfull."})
-	s.SetStatusCode(201)
-
-	println(string(name))
-	println("Post from /users/" + id)
+	if sr.db.First(&status, id).RecordNotFound() {
+		c.JSON(404, gin.H{"error": "not found"})
+	} else {
+		c.JSON(200, status)
+	}
 }
 
-// DELETE /statuses/:param1
-func (s StatusAPI) DeleteBy(id string) {
-	// myDb.DeleteUser(id)
-	println("Delete from /" + id)
+func (sr *StatusResource) Store(c *gin.Context) {
+	var status models.Status
+
+	if err := c.BindJSON(&status); err != nil {
+		c.JSON(422, gin.H{"errors": err})
+	} else {
+		sr.db.Create(&status)
+		c.JSON(201, gin.H{"id": status.ID})
+	}
+}
+
+func (sr *StatusResource) getId(c *gin.Context) (int32, error) {
+	idStr := c.Params.ByName("id")
+	id, err := strconv.Atoi(idStr)
+	if err != nil {
+		log.Print(err)
+		return 0, err
+	}
+	return int32(id), nil
 }
