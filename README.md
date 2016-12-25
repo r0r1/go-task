@@ -1,6 +1,8 @@
 # go-task
 API CRUD Task build with golang.
 
+## Configuration
+rename config.example to config
 
 ## Installation
 ``` bash
@@ -12,14 +14,13 @@ go build
 ```
 will serve http://localhost:8080
 
-## API DOCS
+
 # Overview
 - 422 Http status code for validation errors
 - /api/v1 as the base endpoint
 - Requests and responses are in JSON
 
-## Register
-Register User
+## API DOCS
 
 ### POST /register
 
@@ -67,7 +68,7 @@ Register User
 
 ### GET /tasks
 
-*Response*
+*Response* :
 
         [
             {
@@ -110,7 +111,7 @@ Register User
 
 ### GET /tasks/:id
 
-*Response*
+*Response* :
 
         {
             "ID": 3,
@@ -127,7 +128,7 @@ Register User
 
 ### POST /tasks
 
-*Request* 
+*Request* :
 
         {
             "name": "Task 4",
@@ -135,7 +136,7 @@ Register User
             "priority": 5
         }
 
-*Response*
+*Response* :
 
         {
             "id": 4
@@ -143,7 +144,7 @@ Register User
 
 ### PUT /tasks/:id
 
-*Request* 
+*Request* :
 
         {
             "name": "Task 4",
@@ -151,7 +152,7 @@ Register User
             "priority": 3
         }
 
-*Response*
+*Response* :
 
         {
             "ID": 4,
@@ -168,7 +169,7 @@ Register User
 
 ### DELETE /tasks/:id
 
-*Response*
+*Response* :
 
         {
             "message": "Delete task has been successful."
