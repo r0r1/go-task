@@ -26,28 +26,24 @@ Register User
 *Request* :
 
         {
-            
             "name": "John Doe",
             "email": "john@doe.com",
             "password": "foobarbaz",
-            
         }
 
 *Response* :
 
         {
-            {
-              "ID": 10,
-              "CreatedAt": "2016-12-25T23:11:21.872065994+07:00",
-              "UpdatedAt": "2016-12-25T23:11:21.872065994+07:00",
-              "DeletedAt": null,
-              "name": "John Doe",
-              "email": "john@doe.com",
-              "password": "$2a$10$EJAR0Ppbe2OkzMDskarAYOhYKcCSpPecA9LX/0WWm/a.HBSY.UZdW",
-              "contact": "",
-              "address": "",
-              "Task": null
-            }
+            "ID": 10,
+            "CreatedAt": "2016-12-25T23:11:21.872065994+07:00",
+            "UpdatedAt": "2016-12-25T23:11:21.872065994+07:00",
+            "DeletedAt": null,
+            "name": "John Doe",
+            "email": "john@doe.com",
+            "password": "$2a$10$EJAR0Ppbe2OkzMDskarAYOhYKcCSpPecA9LX/0WWm/a.HBSY.UZdW",
+            "contact": "",
+            "address": "",
+            "Task": null
         }
 
 ### POST /login
@@ -55,19 +51,15 @@ Register User
 *Request* :
 
         {
-            {
-                "username": "john@doe.com",
-                "password": "foobarbaz",
-            }
+            "username": "john@doe.com",
+            "password": "foobarbaz",
         }
 
 *Response* :
 
         {
-            {
-                "expire": "2016-12-26T00:12:19+07:00",
-                "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE0ODI2ODU5MzksImlkIjoicm9yaS5rdXJuaWFkaUB5YWhvby5jb20iLCJvcmlnX2lhdCI6MTQ4MjY4MjMzOX0.OzRTRuCh9BnNmEJEEqjwGzJiQQaUafl7lx0swPvZ0rE"
-            }
+            "expire": "2016-12-26T00:12:19+07:00",
+            "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE0ODI2ODU5MzksImlkIjoicm9yaS5rdXJuaWFkaUB5YWhvby5jb20iLCJvcmlnX2lhdCI6MTQ4MjY4MjMzOX0.OzRTRuCh9BnNmEJEEqjwGzJiQQaUafl7lx0swPvZ0rE"
         }
 
 ## List all the tasks
@@ -121,18 +113,16 @@ Register User
 *Response*
 
         {
-            {
-                "ID": 3,
-                "CreatedAt": "2016-12-25T16:03:17Z",
-                "UpdatedAt": "2016-12-25T16:03:17Z",
-                "DeletedAt": null,
-                "name": "Task 3",
-                "user_id": 0,
-                "parent": 0,
-                "priority": 2,
-                "status": "complete",
-                "description": ""
-            }
+            "ID": 3,
+            "CreatedAt": "2016-12-25T16:03:17Z",
+            "UpdatedAt": "2016-12-25T16:03:17Z",
+            "DeletedAt": null,
+            "name": "Task 3",
+            "user_id": 0,
+            "parent": 0,
+            "priority": 2,
+            "status": "complete",
+            "description": ""
         }
 
 ### POST /tasks
@@ -140,19 +130,15 @@ Register User
 *Request* 
 
         {
-            {
-                "name": "Task 4",
-                "status": "complete",
-                "priority": 5
-            }
+            "name": "Task 4",
+            "status": "complete",
+            "priority": 5
         }
 
 *Response*
 
         {
-            {
-                "id": 4
-            }
+            "id": 4
         }
 
 ### PUT /tasks/:id
@@ -160,28 +146,24 @@ Register User
 *Request* 
 
         {
-            {
-                "name": "Task 4",
-                "status": "progress",
-                "priority": 3
-            }
+            "name": "Task 4",
+            "status": "progress",
+            "priority": 3
         }
 
 *Response*
 
         {
-            {
-                "ID": 4,
-                "CreatedAt": "2016-12-25T16:03:17Z",
-                "UpdatedAt": "2016-12-25T16:03:17Z",
-                "DeletedAt": null,
-                "name": "Task 4",
-                "user_id": 0,
-                "parent": 0,
-                "priority": 3,
-                "status": "progress",
-                "description": ""
-            }
+            "ID": 4,
+            "CreatedAt": "2016-12-25T16:03:17Z",
+            "UpdatedAt": "2016-12-25T16:03:17Z",
+            "DeletedAt": null,
+            "name": "Task 4",
+            "user_id": 0,
+            "parent": 0,
+            "priority": 3,
+            "status": "progress",
+            "description": ""
         }
 
 ### DELETE /tasks/:id
@@ -189,9 +171,7 @@ Register User
 *Response*
 
         {
-            {
-                "message": "Delete task has been successful."
-            }
+            "message": "Delete task has been successful."
         }
 
 ## TO DO
