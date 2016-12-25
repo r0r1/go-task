@@ -2,6 +2,9 @@ package resources
 
 import (
 	"go-task/models"
+	"time"
+
+	jwt "gopkg.in/appleboy/gin-jwt.v2"
 
 	"golang.org/x/crypto/bcrypt"
 
@@ -43,30 +46,40 @@ func (ar *AuthResource) Register(c *gin.Context) {
 	}
 }
 
-func (ar *AuthResource) Login(c *gin.Context) {
-	var login Login
+func (ar *AuthResource) Login() *jwt.GinJWTMiddleware {
 	var user models.User
 
-	if err := c.BindJSON(&login); err != nil {
-		c.JSON(422, gin.H{"error": "email and password are required"})
-		return
+	// JWT Middleware
+	authMiddleware := &jwt.GinJWTMiddleware{
+		Realm:      "test zone",
+		Key:        []byte("secret key"),
+		Timeout:    time.Hour,
+		MaxRefresh: time.Hour * 24,
+		Authenticator: func(email string, password string, c *gin.Context) (string, bool) {
+			data := ar.db.Where("email = ?", email).Find(&user)
+
+			if data.RecordNotFound() {
+				return email, false
+			}
+
+			hashedPassword := []byte(user.Password)
+			inputPassword := []byte(password)
+
+			checkPassword := bcrypt.CompareHashAndPassword(hashedPassword, inputPassword)
+			if checkPassword != nil {
+				return email, false
+			}
+
+			return email, true
+		},
+		Unauthorized: func(c *gin.Context, code int, message string) {
+			c.JSON(code, gin.H{
+				"code":    code,
+				"message": message,
+			})
+		},
+		TokenLookup: "header:Authorization",
 	}
 
-	data := ar.db.Where("email = ?", login.Email).Find(&user)
-
-	if data.RecordNotFound() {
-		c.JSON(401, gin.H{"error": "Login failed, email not found."})
-		return
-	}
-
-	hashedPassword := []byte(user.Password)
-	password := []byte(login.Password)
-
-	checkPassword := bcrypt.CompareHashAndPassword(hashedPassword, password)
-	if checkPassword != nil {
-		c.JSON(401, gin.H{"error": "Login failed, wrong password."})
-		return
-	}
-
-	c.JSON(200, data.Value)
+	return authMiddleware
 }
