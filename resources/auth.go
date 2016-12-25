@@ -84,15 +84,15 @@ func (ar *AuthResource) Login() *jwt.GinJWTMiddleware {
 	return authMiddleware
 }
 
-func (ar *AuthResource) Logout(c *gin.Context) *jwt.GinJWTMiddleware {
-	auth := &jwt.GinJWTMiddleware{
-		Timeout: time.Now,
-		Unauthorized: func(c *gin.Context, code int, message string) {
-			c.JSON(code, gin.H{
-				"code":    code,
-				"message": message,
-			})
-		},
-	}
-	return auth
+func (ar *AuthResource) Logout(c *gin.Context) {
+	// auth := &jwt.GinJWTMiddleware{
+	// 	Timeout: time.Now,
+	// 	Unauthorized: func(c *gin.Context, code int, message string) {
+	// 		c.JSON(code, gin.H{
+	// 			"code":    code,
+	// 			"message": message,
+	// 		})
+	// 	},
+	// }
+	// return auth
 }

@@ -25,6 +25,7 @@ func main() {
 	defer db.Close()
 	statusResource := resources.NewStatusStorage(db)
 	authResource := resources.AuthDB(db)
+	taskResource := resources.TaskDB(db)
 
 	r := gin.Default()
 
@@ -46,6 +47,13 @@ func main() {
 	auth.Use(authResource.Login().MiddlewareFunc())
 	{
 		auth.GET("/refresh_token", authResource.Login().RefreshHandler)
+
+		// task
+		auth.GET("/tasks", taskResource.Get)
+		auth.GET("/tasks/:id", taskResource.Show)
+		auth.POST("/tasks", taskResource.Store)
+		auth.PUT("/tasks/:id", taskResource.Update)
+		auth.DELETE("/tasks/:id", taskResource.Destroy)
 
 		// statuses
 		auth.GET("/statuses", statusResource.Get)

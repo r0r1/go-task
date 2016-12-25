@@ -5,10 +5,10 @@ import "github.com/jinzhu/gorm"
 // Task Model
 type Task struct {
 	gorm.Model
-	Name        string `json:"name" valid:"required"`
+	Name        string `json:"name" binding:"required"`
 	UserID      uint   `gorm:"index" json:"user_id"`
+	Parent      int    `gorm:"default:0" json:"parent"`
+	Priority    int    `json:"priority" binding:"required"`
+	Status      string `json:"status" binding:"required"`
 	Description string `json:"description"`
-	Parent      uint   `json:"parent_id"`
-	Priority    int    `json:"priority"`
-	Status      Status `json:"status_id"`
 }
