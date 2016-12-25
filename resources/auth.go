@@ -51,8 +51,8 @@ func (ar *AuthResource) Login() *jwt.GinJWTMiddleware {
 
 	// JWT Middleware
 	authMiddleware := &jwt.GinJWTMiddleware{
-		Realm:      "test zone",
-		Key:        []byte("secret key"),
+		Realm:      "go-task-management",
+		Key:        []byte(user.Email + user.Password),
 		Timeout:    time.Hour,
 		MaxRefresh: time.Hour * 24,
 		Authenticator: func(email string, password string, c *gin.Context) (string, bool) {
@@ -82,4 +82,17 @@ func (ar *AuthResource) Login() *jwt.GinJWTMiddleware {
 	}
 
 	return authMiddleware
+}
+
+func (ar *AuthResource) Logout(c *gin.Context) *jwt.GinJWTMiddleware {
+	auth := &jwt.GinJWTMiddleware{
+		Timeout: time.Now,
+		Unauthorized: func(c *gin.Context, code int, message string) {
+			c.JSON(code, gin.H{
+				"code":    code,
+				"message": message,
+			})
+		},
+	}
+	return auth
 }
