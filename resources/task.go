@@ -95,7 +95,7 @@ func (tr *TaskResource) Destroy(c *gin.Context) {
 	}
 
 	tr.db.Delete(&task)
-	c.JSON(200, gin.H{"message": "Delete task successful."})
+	c.JSON(200, gin.H{"message": "Delete task has been successful."})
 }
 
 func (tr *TaskResource) getId(c *gin.Context) (int32, error) {
