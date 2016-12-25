@@ -23,14 +23,18 @@ Register User
 
 ### POST /register
 
-*Request*
+*Request* :
+
         {
+            
             "name": "John Doe",
             "email": "john@doe.com",
             "password": "foobarbaz",
+            
         }
 
-*Response*
+*Response* :
+
         {
             "ID": 10,
             "CreatedAt": "2016-12-25T23:11:21.872065994+07:00",
@@ -46,13 +50,15 @@ Register User
 
 ### POST /login
 
-*Request*
+*Request* :
+
         {
             "username": "john@doe.com",
             "password": "foobarbaz",
         }
 
-*Response*
+*Response* :
+
         {
             "expire": "2016-12-26T00:12:19+07:00",
             "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE0ODI2ODU5MzksImlkIjoicm9yaS5rdXJuaWFkaUB5YWhvby5jb20iLCJvcmlnX2lhdCI6MTQ4MjY4MjMzOX0.OzRTRuCh9BnNmEJEEqjwGzJiQQaUafl7lx0swPvZ0rE"
@@ -65,46 +71,44 @@ Register User
 
 *Response*
 
-        {
-            [
-                {
-                  "ID": 3,
-                  "CreatedAt": "2016-12-25T16:03:17Z",
-                  "UpdatedAt": "2016-12-25T16:03:17Z",
-                  "DeletedAt": null,
-                  "name": "Task 3",
-                  "user_id": 0,
-                  "parent": 0,
-                  "priority": 2,
-                  "status": "complete",
-                  "description": ""
-                },
-                {
-                  "ID": 2,
-                  "CreatedAt": "2016-12-25T15:19:31Z",
-                  "UpdatedAt": "2016-12-25T15:19:31Z",
-                  "DeletedAt": null,
-                  "name": "Task 2",
-                  "user_id": 0,
-                  "parent": 0,
-                  "priority": 5,
-                  "status": "progress",
-                  "description": ""
-                },
-                {
-                  "ID": 1,
-                  "CreatedAt": "2016-12-25T15:17:10Z",
-                  "UpdatedAt": "2016-12-25T16:06:03Z",
-                  "DeletedAt": null,
-                  "name": "Task 1",
-                  "user_id": 0,
-                  "parent": 0,
-                  "priority": 4,
-                  "status": "pending",
-                  "description": ""
-                }
-            ]
-        }
+        [
+            {
+              "ID": 3,
+              "CreatedAt": "2016-12-25T16:03:17Z",
+              "UpdatedAt": "2016-12-25T16:03:17Z",
+              "DeletedAt": null,
+              "name": "Task 3",
+              "user_id": 0,
+              "parent": 0,
+              "priority": 2,
+              "status": "complete",
+              "description": ""
+            },
+            {
+              "ID": 2,
+              "CreatedAt": "2016-12-25T15:19:31Z",
+              "UpdatedAt": "2016-12-25T15:19:31Z",
+              "DeletedAt": null,
+              "name": "Task 2",
+              "user_id": 0,
+              "parent": 0,
+              "priority": 5,
+              "status": "progress",
+              "description": ""
+            },
+            {
+              "ID": 1,
+              "CreatedAt": "2016-12-25T15:17:10Z",
+              "UpdatedAt": "2016-12-25T16:06:03Z",
+              "DeletedAt": null,
+              "name": "Task 1",
+              "user_id": 0,
+              "parent": 0,
+              "priority": 4,
+              "status": "pending",
+              "description": ""
+            }
+        ]
 
 ### GET /tasks/:id
 
