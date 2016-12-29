@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/itsjamie/gin-cors"
 	"github.com/rorikurniadi/go-task/models"
 	"github.com/rorikurniadi/go-task/resources"
 
@@ -11,8 +12,10 @@ import (
 func Cors() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		c.Writer.Header().Add("Access-Control-Allow-Origin", "*")
-		c.Writer.Header().Set("Access-Control-Allow-Methods", "DELETE, POST, PUT, PATCH")
-		c.Writer.Header().Set("Access-Control-Allow-Headers", "Content-Type, Origin")
+		c.Writer.Header().Set("Access-Control-Allow-Methods", "POST, PUT, PATCH, DELETE")
+		c.Writer.Header().Set("Access-Control-Allow-Headers", "Origin, Content-Type")
+		c.Writer.Header().Set("Access-Control-Expose-Headers", "Content-Length")
+		c.Writer.Header().Set("Access-Control-Allow-Credentials", "true")
 		c.Next()
 	}
 }
@@ -29,7 +32,15 @@ func main() {
 
 	r := gin.Default()
 
-	r.Use(Cors())
+	// handle CORS
+	r.Use(cors.Middleware(cors.Config{
+		Origins:         "*",
+		Methods:         "GET, PUT, POST, DELETE",
+		RequestHeaders:  "Origin, Authorization, Content-Type",
+		ExposedHeaders:  "",
+		Credentials:     true,
+		ValidateHeaders: false,
+	}))
 
 	v1 := r.Group("api/v1")
 	{
