@@ -48,15 +48,14 @@ func (ar *AuthResource) Register(c *gin.Context) {
 }
 
 func (ar *AuthResource) Login() *jwt.GinJWTMiddleware {
-	var user models.User
-
 	// JWT Middleware
 	authMiddleware := &jwt.GinJWTMiddleware{
 		Realm:      "go-task-management",
-		Key:        []byte(user.Email + user.Password),
+		Key:        []byte("go-task-management"),
 		Timeout:    time.Hour,
 		MaxRefresh: time.Hour * 24,
 		Authenticator: func(email string, password string, c *gin.Context) (string, bool) {
+			var user = new(models.User)
 			data := ar.db.Where("email = ?", email).Find(&user)
 
 			if data.RecordNotFound() {
