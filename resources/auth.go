@@ -23,11 +23,6 @@ type AuthResource struct {
 	db *gorm.DB
 }
 
-type Login struct {
-	Email    string `json:"email" binding:"required"`
-	Password string `json:"password" binding:"required"`
-}
-
 func (ar *AuthResource) Register(c *gin.Context) {
 	var user models.User
 
@@ -84,15 +79,26 @@ func (ar *AuthResource) Login() *jwt.GinJWTMiddleware {
 	return authMiddleware
 }
 
-func (ar *AuthResource) Logout(c *gin.Context) {
-	// auth := &jwt.GinJWTMiddleware{
-	// 	Timeout: time.Now,
-	// 	Unauthorized: func(c *gin.Context, code int, message string) {
-	// 		c.JSON(code, gin.H{
-	// 			"code":    code,
-	// 			"message": message,
-	// 		})
-	// 	},
-	// }
-	// return auth
+func (ar *AuthResource) CurrentUser(c *gin.Context) {
+	var user = new(models.User)
+	jwtClaims := jwt.ExtractClaims(c)
+	id := jwtClaims["id"]
+	data := ar.db.Where("email = ?", id).Find(&user)
+
+	if data.RecordNotFound() {
+		c.JSON(404, gin.H{
+			"code":    404,
+			"message": "User not found.",
+		})
+	}
+
+	c.JSON(200, user)
+}
+
+func (ar *AuthResource) Get(c *gin.Context) {
+	var users []models.User
+
+	ar.db.Order("created_at desc").Find(&users)
+
+	c.JSON(200, users)
 }

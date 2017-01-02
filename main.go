@@ -47,6 +47,10 @@ func main() {
 	{
 		auth.GET("/refresh_token", authResource.Login().RefreshHandler)
 
+		//
+		auth.GET("/users/current", authResource.CurrentUser)
+		auth.GET("/users", authResource.Get)
+
 		// task
 		auth.GET("/tasks", taskResource.Get)
 		auth.GET("/tasks/:id", taskResource.Show)
