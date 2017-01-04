@@ -22,8 +22,8 @@ type TaskResource struct {
 
 func (tr *TaskResource) Get(c *gin.Context) {
 	var tasks []models.Task
-
-	tr.db.Order("created_at desc").Find(&tasks)
+	// var user models.User
+	tr.db.Preload("User").Order("created_at desc").Find(&tasks)
 
 	c.JSON(200, tasks)
 }

@@ -12,5 +12,4 @@ type User struct {
 	Password string `json:"password" binding:"required"`
 	Contact  string `json:"contact"`
 	Address  string `json:"address"`
-	Task     []Task `gorm:"ForeignKey:UserId"`
 }
