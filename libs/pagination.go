@@ -1,14 +1,12 @@
 package libs
 
-import (
-	"math"
-	"strconv"
-)
+import "math"
 
 type Paginate struct {
 	Total   int
 	Page    int
 	PerPage int
+	Limit   int
 	Items   []interface{}
 }
 
@@ -16,40 +14,30 @@ func (p *Paginate) Offset() int {
 	return p.PerPage * (p.Page - 1)
 }
 
+func (p *Paginate) SetTotal(total int) {
+	p.Total = total
+}
+
 func GetTotal(total int, per_page int) int {
-	calculateTotal := strconv.Itoa(total / per_page)
-	count, err := strconv.ParseFloat(calculateTotal, 64)
-	if err != nil {
-		return 0
-	}
-	ceiling := strconv.FormatFloat(math.Ceil(count), 'E', -1, 64)
-	res, err := strconv.Atoi(ceiling)
-	if err != nil {
-		return 0
-	}
-	return res
+	result := float64(total) / float64(per_page)
+	return int(math.Ceil(result))
 }
 
 func (p *Paginate) LastPage() bool {
 	total := GetTotal(p.Total, p.PerPage)
-	if p.Page == total {
-		return true
-	}
-	return false
+	p.Limit = total
+	return p.Page == total
 }
 
 func (p *Paginate) PrevPage() bool {
 	total := GetTotal(p.Total, p.PerPage)
-	if p.Page <= total {
+	if p.Page == 0 || p.Page == 1 {
 		return false
 	}
-	return true
+	return p.Page <= total
 }
 
 func (p *Paginate) NextPage() bool {
 	total := GetTotal(p.Total, p.PerPage)
-	if p.Page <= total {
-		return false
-	}
-	return true
+	return p.Page < total
 }
