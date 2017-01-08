@@ -4,10 +4,10 @@ import (
 	"log"
 	"strconv"
 
-	"github.com/rorikurniadi/go-task/models"
-
 	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/gorm"
+	"github.com/rorikurniadi/go-task/libs"
+	"github.com/rorikurniadi/go-task/models"
 )
 
 // NewUserStorage initializes the storage
@@ -22,10 +22,49 @@ type TaskResource struct {
 
 func (tr *TaskResource) Get(c *gin.Context) {
 	var tasks []models.Task
-	// var user models.User
-	tr.db.Preload("User").Order("created_at desc").Find(&tasks)
+	var count int
+	var taskData []interface{}
+	page, err := strconv.Atoi(c.Query("page"))
+	if err != nil {
+		page = 0
+	}
 
-	c.JSON(200, tasks)
+	var pagination = new(libs.Paginate)
+	pagination.Page = page
+	pagination.PerPage = 5
+
+	tr.db.Preload("User").Order("created_at desc").
+		Find(&tasks).
+		Count(&count)
+
+	pagination.SetTotal(count)
+
+	tr.db.Limit(pagination.PerPage).
+		Offset(pagination.Offset()).
+		Find(&tasks)
+
+	for _, task := range tasks {
+		json := map[string]interface{}{
+			"id":          task.ID,
+			"name":        task.Name,
+			"priority":    task.Priority,
+			"status":      task.Status,
+			"description": task.Description,
+			"date":        task.CreatedAt,
+			"user":        task.User,
+		}
+		taskData = append(taskData, json)
+	}
+
+	c.JSON(200, gin.H{
+		"total":    pagination.Total,
+		"per_page": pagination.PerPage,
+		"prev":     pagination.PrevPage(),
+		"next":     pagination.NextPage(),
+		"last":     pagination.LastPage(),
+		"limit":    pagination.Limit,
+		"items":    taskData,
+	})
 }
 
 func (tr *TaskResource) Show(c *gin.Context) {
