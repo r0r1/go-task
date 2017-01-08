@@ -31,7 +31,7 @@ func (tr *TaskResource) Get(c *gin.Context) {
 
 	var pagination = new(libs.Paginate)
 	pagination.Page = page
-	pagination.PerPage = 5
+	pagination.PerPage = 15
 
 	tr.db.Preload("User").Order("created_at desc").
 		Find(&tasks).
@@ -39,7 +39,7 @@ func (tr *TaskResource) Get(c *gin.Context) {
 
 	pagination.SetTotal(count)
 
-	tr.db.Limit(pagination.PerPage).
+	tr.db.Preload("User").Limit(pagination.PerPage).
 		Offset(pagination.Offset()).
 		Find(&tasks)
 
@@ -51,7 +51,7 @@ func (tr *TaskResource) Get(c *gin.Context) {
 			"status":      task.Status,
 			"description": task.Description,
 			"date":        task.CreatedAt,
-			"user":        task.User,
+			"user":        task.User.Name,
 		}
 		taskData = append(taskData, json)
 	}
