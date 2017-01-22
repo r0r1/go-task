@@ -17,6 +17,7 @@ func main() {
 	statusResource := resources.NewStatusStorage(db)
 	authResource := resources.AuthDB(db)
 	taskResource := resources.TaskDB(db)
+	tagResource := resources.TagDB(db)
 
 	r := gin.Default()
 
@@ -57,6 +58,13 @@ func main() {
 		auth.POST("/tasks", taskResource.Store)
 		auth.PUT("/tasks/:id", taskResource.Update)
 		auth.DELETE("/tasks/:id", taskResource.Destroy)
+
+		// tag
+		auth.GET("/tags", tagResource.Get)
+		auth.GET("/tags/:id", tagResource.Show)
+		auth.POST("/tags", tagResource.Store)
+		auth.PUT("/tags/:id", tagResource.Update)
+		auth.DELETE("/tags/:id", tagResource.Destroy)
 
 		// statuses
 		auth.GET("/statuses", statusResource.Get)
