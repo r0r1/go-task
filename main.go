@@ -18,6 +18,7 @@ func main() {
 	authResource := resources.AuthDB(db)
 	taskResource := resources.TaskDB(db)
 	tagResource := resources.TagDB(db)
+	noteResource := resources.NoteDB(db)
 
 	r := gin.Default()
 
@@ -58,6 +59,7 @@ func main() {
 		auth.POST("/tasks", taskResource.Store)
 		auth.PUT("/tasks/:id", taskResource.Update)
 		auth.DELETE("/tasks/:id", taskResource.Destroy)
+		auth.GET("/tasks/:id/notes", noteResource.GetByTask)
 
 		// tag
 		auth.GET("/tags", tagResource.Get)
@@ -65,6 +67,13 @@ func main() {
 		auth.POST("/tags", tagResource.Store)
 		auth.PUT("/tags/:id", tagResource.Update)
 		auth.DELETE("/tags/:id", tagResource.Destroy)
+
+		// note
+		auth.GET("/notes", noteResource.Get)
+		auth.GET("/notes/:id", noteResource.Show)
+		auth.POST("/notes", noteResource.Store)
+		auth.PUT("/notes/:id", noteResource.Update)
+		auth.DELETE("/notes/:id", noteResource.Destroy)
 
 		// statuses
 		auth.GET("/statuses", statusResource.Get)
