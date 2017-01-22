@@ -14,5 +14,5 @@ type Task struct {
 	Priority    int    `json:"priority" binding:"required"`
 	Status      string `json:"status" binding:"required"`
 	Description string `json:"description"`
-	Tags        []Tag  `gorm:"many2many:tasks_tags;"`
+	Tags        []Tag  `gorm:"many2many:tasks_tags;" json:"tags"`
 }
