@@ -47,7 +47,7 @@ func InitDB() (*gorm.DB, error) {
 	}
 
 	db.LogMode(true)
-	db.AutoMigrate(&User{}, &Task{}, &Status{})
+	db.AutoMigrate(&User{}, &Task{}, &Status{}, &Tag{}, &Note{})
 
 	return db, nil
 }
