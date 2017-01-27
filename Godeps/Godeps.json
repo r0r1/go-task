@@ -1,0 +1,100 @@
+{
+	"ImportPath": "github.com/rorikurniadi/go-task",
+	"GoVersion": "go1.7",
+	"GodepVersion": "v78",
+	"Packages": [
+		"./..."
+	],
+	"Deps": [
+		{
+			"ImportPath": "github.com/BurntSushi/toml",
+			"Comment": "v0.2.0-21-g9906417",
+			"Rev": "99064174e013895bbd9b025c31100bd1d9b590ca"
+		},
+		{
+			"ImportPath": "github.com/gin-gonic/gin",
+			"Comment": "v1.1.4",
+			"Rev": "e2212d40c62a98b388a5eb48ecbdcf88534688ba"
+		},
+		{
+			"ImportPath": "github.com/gin-gonic/gin/binding",
+			"Comment": "v1.1.4",
+			"Rev": "e2212d40c62a98b388a5eb48ecbdcf88534688ba"
+		},
+		{
+			"ImportPath": "github.com/gin-gonic/gin/render",
+			"Comment": "v1.1.4",
+			"Rev": "e2212d40c62a98b388a5eb48ecbdcf88534688ba"
+		},
+		{
+			"ImportPath": "github.com/go-sql-driver/mysql",
+			"Comment": "v1.3-2-g2e00b5c",
+			"Rev": "2e00b5cd70399450106cec6431c2e2ce3cae5034"
+		},
+		{
+			"ImportPath": "github.com/golang/protobuf/proto",
+			"Rev": "8ee79997227bf9b34611aee7946ae64735e6fd93"
+		},
+		{
+			"ImportPath": "github.com/itsjamie/gin-cors",
+			"Comment": "1.0.0",
+			"Rev": "97b4a9da79331dfa2b6d35f4cdd1e50f5148859c"
+		},
+		{
+			"ImportPath": "github.com/jinzhu/gorm",
+			"Comment": "v1.0-107-g373207d",
+			"Rev": "373207d546d4bf4a971d688b63ed787528548d6e"
+		},
+		{
+			"ImportPath": "github.com/jinzhu/inflection",
+			"Rev": "1c35d901db3da928c72a72d8458480cc9ade058f"
+		},
+		{
+			"ImportPath": "github.com/manucorporat/sse",
+			"Rev": "ee05b128a739a0fb76c7ebd3ae4810c1de808d6d"
+		},
+		{
+			"ImportPath": "github.com/mattn/go-isatty",
+			"Rev": "30a891c33c7cde7b02a981314b4228ec99380cca"
+		},
+		{
+			"ImportPath": "github.com/rorikurniadi/gor-pagination",
+			"Rev": "6d7e4497dc986a3c89c6b3e0dec52a77381a64c6"
+		},
+		{
+			"ImportPath": "golang.org/x/crypto/bcrypt",
+			"Rev": "cb497ae8f18e3c55f81bc9f3876c8f4c3d8a2813"
+		},
+		{
+			"ImportPath": "golang.org/x/crypto/blowfish",
+			"Rev": "cb497ae8f18e3c55f81bc9f3876c8f4c3d8a2813"
+		},
+		{
+			"ImportPath": "golang.org/x/net/context",
+			"Rev": "279e8088146c98d22b601754aa950b3d449af152"
+		},
+		{
+			"ImportPath": "golang.org/x/sys/unix",
+			"Rev": "d75a52659825e75fff6158388dddc6a5b04f9ba5"
+		},
+		{
+			"ImportPath": "gopkg.in/appleboy/gin-jwt.v2",
+			"Comment": "v2.1.1",
+			"Rev": "89be89cdc6ee002b5c9b95fb57963ad7e746a82c"
+		},
+		{
+			"ImportPath": "gopkg.in/dgrijalva/jwt-go.v3",
+			"Comment": "v3.0.0",
+			"Rev": "d2709f9f1f31ebcda9651b03077758c1f3a0018c"
+		},
+		{
+			"ImportPath": "gopkg.in/go-playground/validator.v8",
+			"Comment": "v8.18.1",
+			"Rev": "5f57d2222ad794d0dffb07e664ea05e2ee07d60c"
+		},
+		{
+			"ImportPath": "gopkg.in/yaml.v2",
+			"Rev": "a5b47d31c556af34a302ce5d659e6fea44d90de0"
+		}
+	]
+}
