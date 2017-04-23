@@ -76,6 +76,8 @@ func (tr *TaskResource) Show(c *gin.Context) {
 
 	var task models.Task
 
+	tr.db.Preload("User").Preload("Tags").Find(&task)
+
 	if tr.db.First(&task, id).RecordNotFound() {
 		c.JSON(404, gin.H{"error": "not found"})
 	} else {
@@ -114,6 +116,7 @@ func (tr *TaskResource) Update(c *gin.Context) {
 	task.Priority = data.Priority
 	task.Status = data.Status
 	task.Description = data.Description
+	task.Tags = data.Tags
 
 	tr.db.Save(&task)
 
